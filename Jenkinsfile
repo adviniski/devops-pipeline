@@ -37,6 +37,7 @@ pipeline {
         }
         stage('Deploy Project') {
             steps {
+                bat 'docker system prune -af --volumes'
                 bat 'docker-compose -f docker-compose.yml up -d --build'
             }
         }
