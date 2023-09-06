@@ -1,0 +1,56 @@
+services:
+  mysql:
+    image: mysql:latest
+    restart: always
+    container_name: devops_db
+    environment:
+      MYSQL_USER: devops
+      MYSQL_PASSWORD: devops
+      MYSQL_DATABASE: devops
+      MYSQL_ROOT_PASSWORD: devops
+      MYSQL_PORT: 3306
+      MYSQL_HOST: localhost
+    ports:
+      - "3307:3306"
+    networks:
+      - backnet
+    volumes:
+      - dbdata:/var/lib/mysql
+
+  frontend:
+    container_name: devops_front
+    build:
+      context: .
+      dockerfile: devops-front/Dockerfile.client
+    image: react-flask-app-client
+    ports:
+      - "3000:3000"
+    networks:
+      - frontnet
+
+
+  backend:
+    container_name: devops_back
+    build:
+      context: .
+      dockerfile: devops-back/Dockerfile.api
+    image: react-flask-app-api
+    environment:
+      MYSQL_USER: devops
+      MYSQL_PASSWORD: devops
+      MYSQL_DATABASE: devops
+      MYSQL_ROOT_PASSWORD: devops
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mysql
+    networks:
+      - backnet
+      - frontnet
+
+networks:
+  frontnet:
+  backnet:
+
+volumes:
+  dbdata:
