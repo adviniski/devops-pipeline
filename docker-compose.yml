@@ -11,7 +11,7 @@ services:
       MYSQL_PORT: 3306
       MYSQL_HOST: localhost
     ports:
-      - "3306:3306"
+      - "3307:3306"
     networks:
       - backnet
     volumes:
