@@ -37,14 +37,16 @@ pipeline {
             }
         }
         stage('Deploy Project') {
-            script {
-                if (isUnix()) {
-                    sh 'docker-compose -f docker-compose.yml up -d --build'
-                }  else {
-                    /*bat 'docker system prune -af --volumes'*/
-                    bat 'docker-compose -f docker-compose.yml up -d --build'
-                }
-            }      
+            steps {
+                script {
+                    if (isUnix()) {
+                        sh 'docker-compose -f docker-compose.yml up -d --build'
+                    }  else {
+                        /*bat 'docker system prune -af --volumes'*/
+                        bat 'docker-compose -f docker-compose.yml up -d --build'
+                    }
+                }      
+            }
         }
     }
     post {
