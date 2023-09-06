@@ -1,3 +1,4 @@
+
 pipeline {
     environment {
         registry = "adviniski/devops-course" //To push an image to Docker Hub, you must first name your local image using your Docker Hub username and the repository name that you created through Docker Hub on the web.
@@ -36,10 +37,14 @@ pipeline {
             }
         }
         stage('Deploy Project') {
-            steps {
-                bat 'docker system prune -af --volumes'
-                bat 'docker-compose -f docker-compose.yml up -d --build'
-            }
+            script {
+                if (isUnix()) {
+                    sh 'docker-compose -f docker-compose.yml up -d --build'
+                }  else {
+                    /*bat 'docker system prune -af --volumes'*/
+                    bat 'docker-compose -f docker-compose.yml up -d --build'
+                }
+            }      
         }
     }
     post {
