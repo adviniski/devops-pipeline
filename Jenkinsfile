@@ -25,7 +25,6 @@ pipeline {
                 }
             }
         }
-
         stage('CheckoutFront') {
             steps {
                 dir("devops-front")
@@ -36,7 +35,7 @@ pipeline {
                 }
             }
         }
-        stage('Deploy Project') {
+        stage('Build Project') {
             steps {
                 script {
                     if (isUnix()) {
