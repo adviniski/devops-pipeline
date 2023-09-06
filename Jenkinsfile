@@ -5,7 +5,7 @@ pipeline {
         githubCredential = 'GITHUB'
         dockerImage = ''
     }
-    agent none
+    agent any
     stages {
         stage('CheckoutPipeline') {
             steps {
