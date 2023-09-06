@@ -1,6 +1,6 @@
 # devops-pipeline
 
-# https://blog.devgenius.io/implement-ci-cd-using-jenkins-for-python-application-91a3bcf7d91
+https://blog.devgenius.io/implement-ci-cd-using-jenkins-for-python-application-91a3bcf7d91
 
 # docker build -f Dockerfile.api -t react-flask-app-api .
 
