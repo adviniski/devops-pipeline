@@ -48,7 +48,7 @@ pipeline {
                 }      
             }
         }
-        stage('Building our image') {
+        /*stage('Building our image') {
             steps{
                 echo 'Starting to build docker images'
                 script {
@@ -77,6 +77,6 @@ pipeline {
                     }
                 }
             }
-        }        
+        }*/        
     }
 }
