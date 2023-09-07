@@ -50,7 +50,7 @@ pipeline {
         }
         stage('Building our image') {
             steps{
-                echo 'Starting to build docker image DB'
+                echo 'Starting to build docker images'
                 script {
                         dockerImageBack = docker.build("devops-back:$BUILD_NUMBER -f $WORKSPACE/devops-back/Dockerfile.api .")
                         dockerImageFront = docker.build("devops-front:$BUILD_NUMBER -f $WORKSPACE/devops-front/Dockerfile.client .")
