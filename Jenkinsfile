@@ -71,10 +71,9 @@ pipeline {
             steps{
                 script {
                     if (isUnix()) {
-                        sh "docker rmi $registry:$BUILD_NUMBER"
+                        sh "docker rmi devops-back:$BUILD_NUMBER"
                     }  else {
-                        /*bat 'docker system prune -af --volumes'*/
-                        bat "docker rmi $registry:$BUILD_NUMBER"
+                        bat "docker rmi devops-front:$BUILD_NUMBER"
                     }
                 }
             }
