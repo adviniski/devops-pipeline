@@ -48,7 +48,7 @@ pipeline {
             }
         }
     }
-    post {
+    /*post {
         always {
             echo 'The pipeline completed'
             junit allowEmptyResults: true, testResults:'**/test_reports/*.xml'
@@ -60,5 +60,5 @@ pipeline {
             echo 'Build stage failed'
             error('Stopping early…')
         }
-      }
+    }*/
 }
