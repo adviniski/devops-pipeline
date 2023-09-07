@@ -52,8 +52,8 @@ pipeline {
             steps{
                 echo 'Starting to build docker image DB'
                 script {
-                        dockerImageBack = docker.build("devops-back:$BUILD_NUMBER","-f ${env.WORKSPACE}/devops-back/Dockerfile.api .") registry + ":$BUILD_NUMBER"
-                        dockerImageFront = docker.build("devops-front:$BUILD_NUMBER","-f ${env.WORKSPACE}/devops-front/Dockerfile.client .") registry + ":$BUILD_NUMBER"
+                        dockerImageBack = docker.build("devops-back:$BUILD_NUMBER","-f ${env.WORKSPACE}/devops-back/Dockerfile.api .")
+                        dockerImageFront = docker.build("devops-front:$BUILD_NUMBER","-f ${env.WORKSPACE}/devops-front/Dockerfile.client .")
                 }
             }
         }
