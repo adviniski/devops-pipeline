@@ -52,15 +52,15 @@ pipeline {
             steps{
                 echo 'Starting to build docker images'
                 script {
-                        dockerImageBack = docker.build registry "devops-back:$BUILD_NUMBER-f /devops-back/Dockerfile.api ."
-                        dockerImageFront = docker.build registry "devops-front:$BUILD_NUMBER -f /devops-front/Dockerfile.client ."
+                        dockerImageBack = docker.build "devops-back:$BUILD_NUMBER-f /devops-back/Dockerfile.api ."
+                        dockerImageFront = docker.build "devops-front:$BUILD_NUMBER -f /devops-front/Dockerfile.client ."
                 }
             }
         }
         stage('Deploy production image') {
             steps{
                 script {
-                    docker.withRegistry( '', registryCredential ) {
+                    docker.withRegistry( registry, registryCredential ) {
                         dockerImageBack.push()
                         dockerImageFront.push()
                     }
