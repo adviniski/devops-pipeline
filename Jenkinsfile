@@ -2,8 +2,8 @@
 pipeline {
     environment {
         registry = "adviniski/devops-course" //To push an image to Docker Hub, you must first name your local image using your Docker Hub username and the repository name that you created through Docker Hub on the web.
-        registryCredential = 'DOCKERHUB'
-        githubCredential = 'GITHUB'
+        registryCredential = 'docker-hub-token'
+        githubCredential = 'git-hub-token'
         dockerImage = ''
     }
     agent any
@@ -35,7 +35,7 @@ pipeline {
                 }
             }
         }
-        stage('Build Project') {
+        stage('Build Test Project') {
             steps {
                 script {
                     if (isUnix()) {
@@ -47,6 +47,34 @@ pipeline {
                 }      
             }
         }
+        stage('Building our image') {
+            steps{
+            script {
+                dockerImage = docker.build registry + ":$BUILD_NUMBER"
+            }
+        }
+        }
+        stage('Deploy production image') {
+            steps{
+                script {
+                    docker.withRegistry( '', registryCredential ) {
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
+        stage('Cleaning up') {
+            steps{
+                script {
+                    if (isUnix()) {
+                        sh "docker rmi $registry:$BUILD_NUMBER"
+                    }  else {
+                        /*bat 'docker system prune -af --volumes'*/
+                        bat "docker rmi $registry:$BUILD_NUMBER"
+                    }
+                }
+            }
+        }        
     }
     /*post {
         always {
