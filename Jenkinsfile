@@ -4,7 +4,8 @@ pipeline {
         registry = "adviniski/devops-course" //To push an image to Docker Hub, you must first name your local image using your Docker Hub username and the repository name that you created through Docker Hub on the web.
         registryCredential = 'docker-hub-token'
         githubCredential = 'git-hub-token'
-        dockerImage = ''
+        dockerImageBack = ''
+        dockerImageFront = ''
     }
     agent any
     stages {
@@ -49,16 +50,19 @@ pipeline {
         }
         stage('Building our image') {
             steps{
-            script {
-                dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                echo 'Starting to build docker image DB'
+                script {
+                        dockerImageBack = docker.build("devops-back:$BUILD_NUMBER","-f ${env.WORKSPACE}/devops-back/Dockerfile.api .") registry + ":$BUILD_NUMBER"
+                        dockerImageFront = docker.build("devops-front:$BUILD_NUMBER","-f ${env.WORKSPACE}/devops-front/Dockerfile.client .") registry + ":$BUILD_NUMBER"
+                }
             }
-        }
         }
         stage('Deploy production image') {
             steps{
                 script {
                     docker.withRegistry( '', registryCredential ) {
-                        dockerImage.push()
+                        dockerImageBack.push()
+                        dockerImageFront.push()
                     }
                 }
             }
