@@ -1,7 +1,6 @@
-
 pipeline {
     environment {
-        registry = "adviniski/devops-course" //To push an image to Docker Hub, you must first name your local image using your Docker Hub username and the repository name that you created through Docker Hub on the web.
+        registry = "adviniski/devops-course" 
         registryCredential = 'docker-hub-token'
         githubCredential = 'git-hub-token'
         dockerImageBack = ''
@@ -48,12 +47,12 @@ pipeline {
                 }      
             }
         }
-        /*stage('Building our image') {
+        stage('Building our image') {
             steps{
                 echo 'Starting to build docker images'
                 script {
-                        dockerImageBack = docker.build "devops-back:$BUILD_NUMBER -f /devops-back/Dockerfile.api ."
-                        dockerImageFront = docker.build "devops-front:$BUILD_NUMBER -f /devops-front/Dockerfile.client ."
+                    dockerImageBack = docker.build "devops-back:$BUILD_NUMBER -f /devops-back/Dockerfile.api ."
+                    dockerImageFront = docker.build "devops-front:$BUILD_NUMBER -f /devops-front/Dockerfile.client ."
                 }
             }
         }
@@ -62,6 +61,8 @@ pipeline {
                 script {
                     docker.withRegistry( registry, registryCredential ) {
                         dockerImageBack.push()
+                    }
+                    docker.withRegistry( registry, registryCredential ) {
                         dockerImageFront.push()
                     }
                 }
@@ -77,6 +78,6 @@ pipeline {
                     }
                 }
             }
-        }*/        
+        }     
     }
 }
