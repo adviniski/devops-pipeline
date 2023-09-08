@@ -1,6 +1,6 @@
 pipeline {
     environment {
-        registry = "adviniski/devops-course" 
+        registry = 'adviniski/devops-course' 
         registryCredential = 'docker-hub-token'
         githubCredential = 'github-token'
         dockerImageBack = ''
@@ -10,16 +10,16 @@ pipeline {
     stages {
         stage('CheckoutPipeline') {
             steps {
-                git branch: "main",
+                git branch: 'main',
                 credentialsId: githubCredential,
                 url: 'https://github.com/adviniski/devops-pipeline.git'
             }
         }
         stage('CheckoutBackend') {
             steps {
-                dir("devops-back")
+                dir('devops-back')
                 {
-                    git branch: "main",
+                    git branch: 'main',
                     credentialsId: githubCredential,
                     url: 'https://github.com/adviniski/devops-back.git'
                 }
@@ -27,9 +27,9 @@ pipeline {
         }
         stage('CheckoutFront') {
             steps {
-                dir("devops-front")
+                dir('devops-front')
                 {
-                    git branch: "main",
+                    git branch: 'main',
                     credentialsId: githubCredential,
                     url: 'https://github.com/adviniski/devops-front.git'
                 }
@@ -51,8 +51,8 @@ pipeline {
             steps{
                 echo 'Starting to build docker images'
                 script {
-                    dockerImageBack = docker.build "devops-back:latest -f /devops-back/Dockerfile.api ."
-                    dockerImageFront = docker.build "devops-front:latest -f /devops-front/Dockerfile.client ."
+                    dockerImageBack = docker.build 'devops-back:latest -f /devops-back/Dockerfile.api .'
+                    dockerImageFront = docker.build 'devops-front:latest -f /devops-front/Dockerfile.client .'
                 }
             }
         }
@@ -72,9 +72,9 @@ pipeline {
             steps{
                 script {
                     if (isUnix()) {
-                        sh "docker rmi devops-back:latest"
+                        sh 'docker rmi devops-back:latest'
                     }  else {
-                        bat "docker rmi devops-front:latest"
+                        bat 'docker rmi devops-front:latest'
                     }
                 }
             }
