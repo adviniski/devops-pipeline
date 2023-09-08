@@ -2,7 +2,7 @@ pipeline {
     environment {
         registry = "adviniski/devops-course" 
         registryCredential = 'docker-hub-token'
-        githubCredential = 'git-hub-token'
+        githubCredential = 'github-token'
         dockerImageBack = ''
         dockerImageFront = ''
     }

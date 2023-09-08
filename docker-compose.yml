@@ -22,7 +22,7 @@ services:
     build:
       context: .
       dockerfile: devops-front/Dockerfile.client
-    image: react-flask-app-client
+    image: devops-front
     ports:
       - "3000:3000"
     networks:
@@ -34,7 +34,7 @@ services:
     build:
       context: .
       dockerfile: devops-back/Dockerfile.api
-    image: react-flask-app-api
+    image: devops-back
     environment:
       MYSQL_USER: devops
       MYSQL_PASSWORD: devops
