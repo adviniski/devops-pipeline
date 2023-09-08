@@ -51,8 +51,8 @@ pipeline {
             steps{
                 echo 'Starting to build docker images'
                 script {
-                    dockerImageBack = docker.build "devops-back:$BUILD_NUMBER -f /devops-back/Dockerfile.api ."
-                    dockerImageFront = docker.build "devops-front:$BUILD_NUMBER -f /devops-front/Dockerfile.client ."
+                    dockerImageBack = docker.build "devops-back:latest -f /devops-back/Dockerfile.api ."
+                    dockerImageFront = docker.build "devops-front:latest -f /devops-front/Dockerfile.client ."
                 }
             }
         }
@@ -72,9 +72,9 @@ pipeline {
             steps{
                 script {
                     if (isUnix()) {
-                        sh "docker rmi devops-back:$BUILD_NUMBER"
+                        sh "docker rmi devops-back:latest"
                     }  else {
-                        bat "docker rmi devops-front:$BUILD_NUMBER"
+                        bat "docker rmi devops-front:latest"
                     }
                 }
             }
