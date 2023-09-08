@@ -51,7 +51,7 @@ pipeline {
             steps{
                 echo 'Starting to build docker images'
                 script {
-                    dockerImageBack = docker.build(registry +'devops-back-image',' -f /devops-back/Dockerfile.api .')
+                    dockerImageBack = docker.build(registry +'/devops-back-image',' -f /devops-back/Dockerfile.api .')
                     dockerImageFront = docker.build(registry +'/devops-front-image',' -f /devops-front/Dockerfile.client .')
                 }
             }
