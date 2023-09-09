@@ -59,7 +59,7 @@ pipeline {
         stage('Deploy end image') {
             steps{
                 script {
-                    docker.withRegistry( registry, registryCredential ) {
+                    docker.withRegistry( registryCredential ) {
                         dockerImageBack.push()
                     }
                 }
@@ -68,7 +68,7 @@ pipeline {
         stage('Deploy front image') {
             steps{
                 script {
-                    docker.withRegistry( registry, registryCredential ) {
+                    docker.withRegistry( registryCredential ) {
                         dockerImageFront.push()
                     }
                 }
