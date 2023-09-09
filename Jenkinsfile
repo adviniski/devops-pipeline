@@ -56,12 +56,18 @@ pipeline {
                 }
             }
         }
-        stage('Deploy production image') {
+        stage('Deploy end image') {
             steps{
                 script {
                     docker.withRegistry( registry, registryCredential ) {
                         dockerImageBack.push()
                     }
+                }
+            }
+        }
+        stage('Deploy front image') {
+            steps{
+                script {
                     docker.withRegistry( registry, registryCredential ) {
                         dockerImageFront.push()
                     }
