@@ -59,7 +59,7 @@ pipeline {
         stage('Deploy end image') {
             steps{
                 script {
-                    docker.withRegistry("${registry}:devops-back-image", registryCredential ) {
+                    docker.withRegistry("https://hub.docker.com/repository/docker/${registry}:devops-back-image", registryCredential ) {
                         dockerImageBack.push()
                     }
                 }
@@ -68,7 +68,7 @@ pipeline {
         stage('Deploy front image') {
             steps{
                 script {
-                    docker.withRegistry( "${registry}:devops-front-image", registryCredential ) {
+                    docker.withRegistry( "https://hub.docker.com/repository/docker/${registry}:devops-front-image", registryCredential ) {
                         dockerImageFront.push()
                     }
                 }
