@@ -64,7 +64,7 @@ pipeline {
                     //withCredentials([usernamePassword( credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         docker.withRegistry('', 'dockerhub') {
                             //bat "docker login -u $USERNAME -p $PASSWORD"
-                            bat 'echo $DOCKERHUB_CREDENTIALS_PWD | docker login --username $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                            bat('docker login --username $DOCKERHUB_CREDENTIALS_USR -p $DOCKERHUB_CREDENTIALS_PWD')
                             dockerImageBack.push("${env.BUILD_NUMBER}")
                             dockerImageBack.push("latest")
                             dockerImageFront.push("${env.BUILD_NUMBER}")
