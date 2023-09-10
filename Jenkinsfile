@@ -62,10 +62,11 @@ pipeline {
                 script {
                     withCredentials([usernamePassword( credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
 		
-                    docker.withRegistry('', 'dockerhub') {
-                        bat "docker login -u ${USERNAME} -p ${PASSWORD}"
-                        dockerImageBack.push("${env.BUILD_NUMBER}")
-                        dockerImageBack.push("latest")
+                        docker.withRegistry('', 'dockerhub') {
+                            bat "docker login -u ${USERNAME} -p ${PASSWORD}"
+                            dockerImageBack.push("${env.BUILD_NUMBER}")
+                            dockerImageBack.push("latest")
+                        }
                     }
                 }
             }
