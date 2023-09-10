@@ -80,6 +80,8 @@ pipeline {
                     if (isUnix()) {
                         sh 'docker rmi devops-back-image'
                     }  else {
+                        bat("docker rmi ${registryBack}:${env.BUILD_NUMBER}")
+                        bat("docker rmi ${registryFront}:${env.BUILD_NUMBER}")
                         bat 'docker logout'
                     }
                 }
