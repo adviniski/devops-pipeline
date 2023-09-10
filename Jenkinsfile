@@ -1,9 +1,9 @@
 pipeline {
     environment {
         registry = "adviniski/devops-course"
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub-token')
-        registryCredential = 'dockerhub-token'
-        githubCredential = 'github-token'
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+        registryCredential = 'dockerhub'
+        githubCredential = 'github'
         dockerImageBack = ''
         dockerImageFront = ''
     }
@@ -65,7 +65,7 @@ pipeline {
         stage('Deploy back image') {
             steps{
                 script {
-                    docker.withRegistry("${registry}:devops-back-image", registryCredential ) {
+                    docker.withRegistry(registry, registryCredential ) {
                         dockerImageBack.push()
                     }
                 }
@@ -74,7 +74,7 @@ pipeline {
         stage('Deploy front image') {
             steps{
                 script {
-                    docker.withRegistry( "${registry}:devops-front-image", registryCredential ) {
+                    docker.withRegistry(registry, registryCredential ) {
                         dockerImageFront.push()
                     }
                 }
