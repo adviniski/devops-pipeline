@@ -80,7 +80,6 @@ pipeline {
                     if (isUnix()) {
                         sh 'docker rmi devops-back-image'
                     }  else {
-                        bat 'docker rmi devops-back-image'
                         bat 'docker logout'
                     }
                 }
