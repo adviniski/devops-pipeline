@@ -1,6 +1,7 @@
 pipeline {
     environment {
-        registry = "adviniski/devops-course"
+        registryBack = "adviniski/devops-back"
+        registryFront = "adviniski/devops-front"
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
         registryCredential = 'dockerhub'
         githubCredential = 'github'
@@ -52,22 +53,23 @@ pipeline {
             steps{
                 echo 'Starting to build docker images'
                 script {
-                    dockerImageBack = docker.build("${registry}:${env.BUILD_NUMBER}"," -f devops-back/Dockerfile.api .")
-                    //dockerImageFront = docker.build("devops-front-image"," -f devops-front/Dockerfile.client .")
+                    dockerImageBack = docker.build("${registryBack}:${env.BUILD_NUMBER}"," -f devops-back/Dockerfile.api .")
+                    dockerImageFront = docker.build("${registryFront}:${env.BUILD_NUMBER}"," -f devops-front/Dockerfile.client .")
                 }
             }
         }
-        stage('Deploy back image') {
+        stage('Deploy images') {
             steps{
                 script {
-                    //withCredentials([usernamePassword( credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-		
+                    withCredentials([usernamePassword( credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         docker.withRegistry('', 'dockerhub') {
-                            bat "docker login -u ${DOCKERHUB_CREDENTIALS_USR} -p ${DOCKERHUB_CREDENTIALS_PWD} --password-stdin"
+                            bat "docker login -u ${USERNAME} -p ${PASSWORD} --password-stdin"
                             dockerImageBack.push("${env.BUILD_NUMBER}")
                             dockerImageBack.push("latest")
+                            dockerImageFront.push("${env.BUILD_NUMBER}")
+                            dockerImageFront.push("latest")
                         }
-                    //}
+                    }
                 }
             }
         }
