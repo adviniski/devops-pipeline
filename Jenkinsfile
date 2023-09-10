@@ -2,6 +2,7 @@ pipeline {
     environment {
         registryBack = "adviniski/devops-back"
         registryFront = "adviniski/devops-front"
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
         registryCredential = 'dockerhub'
         githubCredential = 'github'
         dockerImageBack = ''
@@ -60,16 +61,16 @@ pipeline {
         stage('Deploy images') {
             steps{
                 script {
-                    withCredentials([usernamePassword( credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    //withCredentials([usernamePassword( credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         docker.withRegistry('', 'dockerhub') {
                             //bat "docker login -u $USERNAME -p $PASSWORD"
-                            bat "echo '$PASSWORD' | docker login --username $USERNAME --password-stdin"
+                            bat 'echo $DOCKERHUB_CREDENTIALS_PWD | docker login --username $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                             dockerImageBack.push("${env.BUILD_NUMBER}")
                             dockerImageBack.push("latest")
                             dockerImageFront.push("${env.BUILD_NUMBER}")
                             dockerImageFront.push("latest")
                         }
-                    }
+                    //}
                 }
             }
         }
