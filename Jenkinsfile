@@ -53,40 +53,31 @@ pipeline {
                 echo 'Starting to build docker images'
                 script {
                     dockerImageBack = docker.build("devops-back-image"," -f devops-back/Dockerfile.api .")
-                    dockerImageFront = docker.build("devops-front-image"," -f devops-front/Dockerfile.client .")
+                    //dockerImageFront = docker.build("devops-front-image"," -f devops-front/Dockerfile.client .")
                 }
             }
         }
-        //stage('Login') {
-        //    steps {
-        //        bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-        //    }
-        //}
         stage('Deploy back image') {
             steps{
                 script {
-                    docker.withRegistry(registry, registryCredential ) {
-                        dockerImageBack.push()
+                    withCredentials([usernamePassword( credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+		
+                    docker.withRegistry('', 'dockerhub') {
+                        bat "docker login -u ${USERNAME} -p ${PASSWORD}"
+                        dockerImageBack.push("${env.BUILD_NUMBER}")
+                        dockerImageBack.push("latest")
                     }
                 }
             }
         }
-        stage('Deploy front image') {
-            steps{
-                script {
-                    docker.withRegistry(registry, registryCredential ) {
-                        dockerImageFront.push()
-                    }
-                }
-            }
-        }
+        
         stage('Cleaning up') {
             steps{
                 script {
                     if (isUnix()) {
-                        sh 'docker rmi devops-back-image'
+                        bat 'docker rmi devops-back-image'
                     }  else {
-                        bat 'docker rmi devops-front-image'
+                        bat 'docker rmi devops-back-image'
                     }
                 }
             }
