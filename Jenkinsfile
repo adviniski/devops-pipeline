@@ -2,7 +2,6 @@ pipeline {
     environment {
         registryBack = "adviniski/devops-back"
         registryFront = "adviniski/devops-front"
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
         registryCredential = 'dockerhub'
         githubCredential = 'github'
         dockerImageBack = ''
