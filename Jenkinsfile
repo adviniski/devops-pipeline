@@ -61,9 +61,8 @@ pipeline {
         stage('Deploy images') {
             steps{
                 script {
-                    withCredentials([usernamePassword( credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                        docker.withRegistry('', 'dockerhub') {
-                            //bat "docker login -u $USERNAME -p $PASSWORD"
+                    withCredentials([usernamePassword( credentialsId: registryCredential, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        docker.withRegistry('', registryCredential) {
                             bat("echo $PASSWORD| docker login -u $USERNAME --password-stdin")
                             dockerImageBack.push("${env.BUILD_NUMBER}")
                             dockerImageBack.push("latest")
