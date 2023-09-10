@@ -62,7 +62,7 @@ pipeline {
                 script {
                     withCredentials([usernamePassword( credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         docker.withRegistry('', 'dockerhub') {
-                            bat "echo | set /p=$PASSWORD | docker login -u $USERNAME --password-stdin"
+                            bat "docker login -u $USERNAME -p $PASSWORD"
                             dockerImageBack.push("${env.BUILD_NUMBER}")
                             dockerImageBack.push("latest")
                             dockerImageFront.push("${env.BUILD_NUMBER}")
@@ -80,6 +80,7 @@ pipeline {
                         sh 'docker rmi devops-back-image'
                     }  else {
                         bat 'docker rmi devops-back-image'
+                        bat 'docker logout'
                     }
                 }
             }
