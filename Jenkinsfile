@@ -60,14 +60,14 @@ pipeline {
         stage('Deploy back image') {
             steps{
                 script {
-                    withCredentials([usernamePassword( credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    //withCredentials([usernamePassword( credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
 		
                         docker.withRegistry('', 'dockerhub') {
-                            bat "docker login -u ${USERNAME} -p ${PASSWORD}"
+                            bat "docker login -u ${DOCKERHUB_CREDENTIALS_USR} -p ${DOCKERHUB_CREDENTIALS_PWD} --password-stdin"
                             dockerImageBack.push("${env.BUILD_NUMBER}")
                             dockerImageBack.push("latest")
                         }
-                    }
+                    //}
                 }
             }
         }
