@@ -43,7 +43,6 @@ pipeline {
                     if (isUnix()) {
                         sh 'docker-compose -f docker-compose.yml up -d --build'
                     }  else {
-                        /*bat 'docker system prune -af --volumes'*/
                         bat 'docker-compose -f docker-compose.yml up -d --build'
                     }
                 }      
@@ -78,7 +77,9 @@ pipeline {
             steps{
                 script {
                     if (isUnix()) {
-                        sh 'docker rmi devops-back-image'
+                        sh("docker rmi ${registryBack}:${env.BUILD_NUMBER}")
+                        sh("docker rmi ${registryFront}:${env.BUILD_NUMBER}")
+                        sh 'docker logout'
                     }  else {
                         bat("docker rmi ${registryBack}:${env.BUILD_NUMBER}")
                         bat("docker rmi ${registryFront}:${env.BUILD_NUMBER}")
