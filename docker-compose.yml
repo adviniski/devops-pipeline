@@ -21,7 +21,7 @@ services:
     container_name: devops_front
     build:
       context: .
-      dockerfile: devops-front/Dockerfile.client
+      dockerfile: ./devops-front/Dockerfile.client
     image: devops-front
     ports:
       - "3000:3000"
@@ -33,13 +33,16 @@ services:
     container_name: devops_back
     build:
       context: .
-      dockerfile: devops-back/Dockerfile.api
+      dockerfile: ./devops-back/Dockerfile.api
     image: devops-back
     environment:
-      MYSQL_USER: devops
-      MYSQL_PASSWORD: devops
-      MYSQL_DATABASE: devops
-      MYSQL_ROOT_PASSWORD: devops
+      DEVOPS_DATABASE_SERVER: mysql
+      DEVOPS_DATABASE_PACKAGE: pymysql
+      DEVOPS_DATABASE_NAME: devops
+      DEVOPS_DATABASE_USERNAME: devops
+      DEVOPS_DATABASE_PASSWORD: devops
+      DEVOPS_DATABASE_HOST: mysql
+      DEVOPS_DATABASE_PORT: 3306
     ports:
       - "5000:5000"
     depends_on:
